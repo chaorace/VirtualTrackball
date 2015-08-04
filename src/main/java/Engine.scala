@@ -23,7 +23,7 @@ class Engine(pollingRate: Option[Double], startupThreshold: Option[Double], give
     val endPos = new Point2D(MouseInfo.getPointerInfo.getLocation)
 
     //If this movement was significant
-    if(!startPos.almostEquals(endPos, giveupThreshold.getOrElse(5))){
+    if(!startPos.almostEquals(endPos, giveupThreshold.getOrElse(2))){
       //If this movement was violent
       if(!startPos.almostEquals(endPos, startupThreshold.getOrElse(10))){
         //Use the last polled movement as the new trackball speed
