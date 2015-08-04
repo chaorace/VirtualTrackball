@@ -58,6 +58,10 @@ class Gui extends JFXApp {
               engineThread.start()
             case false => engineThread.stop()
           }}
+          //If the user tries closing the GUI while the engine is running, the thread gets shut down
+          onCloseRequest = handle {
+            engineThread.stop()
+          }
         }
       }
     }
