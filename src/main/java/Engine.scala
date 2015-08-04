@@ -6,7 +6,7 @@ import math.geom2d.{Point2D, Vector2D}
 /**
  * Created by Chris on 8/4/2015. This class actually handles
  */
-class Engine extends Runnable{
+class Engine(pollingRate: Option[Int], startupThreshold: Option[Double], giveupThreshold: Option[Double], newDrag: Option[Double]) extends Runnable{
 
   val robot = new Robot
   val noVector = new Vector2D(0,0)
