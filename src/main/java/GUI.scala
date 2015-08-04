@@ -13,6 +13,7 @@ import scalafx.scene.text.Font
  * Created by Chris on 8/4/2015. This is the GUI wrapper for the engine. This can be completely bypassed by console commands
  */
 class Gui extends JFXApp {
+  //Gui setup
   stage = new PrimaryStage {
     title = s"${Main.name} by ${Main.author}"
     scene = new Scene {
@@ -47,6 +48,7 @@ class Gui extends JFXApp {
             }
           )
         }
+        //Engine starting logic. Converts fields to values to be used by the engine
         bottom = new ToggleButton{
           var engineThread = new Thread(new Engine(pollingField.value, startupField.value, giveupField.value, dragField.value))
           text <== when(selected) choose "Stop/Reload Settings" otherwise "Start"
@@ -63,6 +65,7 @@ class Gui extends JFXApp {
 }
 
 class InputField(description: String, tt: Tooltip) extends HBox {
+  //Template for input fields with a built-in description and tooltip
   padding = Insets(5)
   private val inputBox = new TextField {
     maxWidth = 40
