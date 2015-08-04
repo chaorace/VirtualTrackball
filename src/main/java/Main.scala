@@ -55,32 +55,39 @@ object Main extends App {
       gui.main(new Array[String](0))
     } else {
       //An unreasonable amount of work to get a generally crummy library to play nice with Scala. 0/10 experience, would not recommend JCommander for Scala use
-      new JCommander(Args, args.toArray: _*)
-      val pollingRateString = Option(Args.pollingRate)
-      val startupThresholdString = Option(Args.startupThreshold)
-      val giveupThresholdString = Option(Args.giveupThreshold)
-      val dragString = Option(Args.drag)
+      try{
+        new JCommander(Args, args.toArray: _*)
+        val pollingRateString = Option(Args.pollingRate)
+        val startupThresholdString = Option(Args.startupThreshold)
+        val giveupThresholdString = Option(Args.giveupThreshold)
+        val dragString = Option(Args.drag)
 
-      val pollingRate = pollingRateString match {
-        case None => None
-        case Some(x: String) => Some(x.toDouble)
-      }
-      val startupThreshold = startupThresholdString match {
-        case None => None
-        case Some(x: String) => Some(x.toDouble)
-      }
-      val giveupThreshold = giveupThresholdString match {
-        case None => None
-        case Some(x: String) => Some(x.toDouble)
-      }
-      val drag = dragString match {
-        case None => None
-        case Some(x: String) => Some(x.toDouble)
+        val pollingRate = pollingRateString match {
+          case None => None
+          case Some(x: String) => Some(x.toDouble)
+        }
+        val startupThreshold = startupThresholdString match {
+          case None => None
+          case Some(x: String) => Some(x.toDouble)
+        }
+        val giveupThreshold = giveupThresholdString match {
+          case None => None
+          case Some(x: String) => Some(x.toDouble)
+        }
+        val drag = dragString match {
+          case None => None
+          case Some(x: String) => Some(x.toDouble)
+        }
+
+        //Start engine with provided parameters
+        val engine = new Engine(pollingRate, startupThreshold, giveupThreshold, drag)
+        engine.run()
+      }catch{
+        case Exception =>
+          val engine = new Engine(None, None, None, None)
+          engine.run()
       }
 
-      //Start engine with provided parameters
-      val engine = new Engine(pollingRate, startupThreshold, giveupThreshold, drag)
-      engine.run()
     }
   }
 }
