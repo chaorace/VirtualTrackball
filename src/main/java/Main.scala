@@ -1,34 +1,79 @@
-import org.clapper.argot.ArgotParser
+import com.beust.jcommander.{JCommander, Parameter}
+
 
 /**
  * Created by Chris on 8/4/2015. Main execution environment
  */
 object Main extends App {
-  val name = "Virtual Trackball"
-  val version = "1.0"
-  val author = "chaorace (Chris Crockett)"
+  final val name = "Virtual Trackball"
+  final val version = "1.0"
+  final val author = "chaorace (Chris Crockett)"
 
-  val pollingRateDesc =
+  final val pollingRateDesc =
     "The rate at which mouse movement is measured.\n" +
       "Lower values are smoother, Higher values are less intensive.\n" +
       "Changing this option directly affects how all other options are evaluated\n" +
       "(don't change this unless you know what you're doing!).\n" +
       "Default value (5)"
-  val startupThresholdDesc =
+  final val startupThresholdDesc =
     "The lowest amount of movement that can start trackball spinning.\n" +
       "Default value (10)"
-  val giveupThresholdDesc =
+  final val giveupThresholdDesc =
     "The lowest amount of movement that can interrupt trackball spinning.\n" +
       "Default value (5)"
-  val dragDesc =
+  final val dragDesc =
     "The rate at which the trackball slows down. 1 eliminates all slowdown.\n" +
       ">1 values cause the trackball to speed up.\n" +
       "Default value (.98)"
 
+  object Args {
+    @Parameter(
+      names = Array("-p", "--PollingRate"),
+      description = pollingRateDesc)
+    var pollingRate: String = null
+    @Parameter(
+      names = Array("-t", "--Tolerance"),
+      description = startupThresholdDesc)
+    var startupThreshold: String = null
+    @Parameter(
+      names = Array("-s", "--Sensitivity"),
+      description = giveupThresholdDesc)
+    var giveupThreshold: String = null
+    @Parameter(
+      names = Array("-f", "--Friction"),
+      description = dragDesc)
+    var drag: String = null
+  }
+
   override def main(args: Array[String]): Unit = {
-    if(args.isEmpty){
+    if (args.isEmpty) {
       val gui = new Gui
       gui.main(new Array[String](0))
+    } else {
+      new JCommander(Args, args.toArray: _*)
+      val pollingRateString = Option(Args.pollingRate)
+      val startupThresholdString = Option(Args.startupThreshold)
+      val giveupThresholdString = Option(Args.giveupThreshold)
+      val dragString = Option(Args.drag)
+
+      val pollingRate = pollingRateString match {
+        case None => None
+        case Some(x: String) => Some(x.toDouble)
+      }
+      val startupThreshold = startupThresholdString match {
+        case None => None
+        case Some(x: String) => Some(x.toDouble)
+      }
+      val giveupThreshold = giveupThresholdString match {
+        case None => None
+        case Some(x: String) => Some(x.toDouble)
+      }
+      val drag = dragString match {
+        case None => None
+        case Some(x: String) => Some(x.toDouble)
+      }
+      val engine = new Engine(pollingRate, startupThreshold, giveupThreshold, drag)
+      engine.run()
     }
   }
 }

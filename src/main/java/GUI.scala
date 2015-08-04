@@ -27,7 +27,7 @@ class Gui extends JFXApp {
         top = new Label {
           padding = Insets(15)
           font = Font(21)
-          text = s"${Main.name}} Config"
+          text = s"${Main.name} Config"
         }
         center = new VBox{
           maxWidth = 300
