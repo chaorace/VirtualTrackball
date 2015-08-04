@@ -14,27 +14,12 @@ import scalafx.scene.text.Font
  */
 class Gui extends JFXApp {
   stage = new PrimaryStage {
-    title = "Virtual Trackball by chaorace"
+    title = s"${Main.name} by ${Main.author}"
     scene = new Scene {
-      val pollingField = new InputField("Polling Rate", Tooltip(
-        "The rate at which mouse movement is measured.\n" +
-          "Lower values are smoother, Higher values are less intensive.\n" +
-          "Changing this option directly affects how all other options are evaluated\n" +
-          "(don't change this unless you know what you're doing!).\n" +
-          "Default value (5)"))
-      val startupField = new InputField("Tolerance", Tooltip(
-        "The lowest amount of movement that can start trackball spinning.\n" +
-          "Default value (10)"
-      ))
-      val giveupField = new InputField("Sensitivity", Tooltip(
-        "The lowest amount of movement that can interrupt trackball spinning.\n" +
-          "Default value (5)"
-      ))
-      val dragField = new InputField("Friction", Tooltip(
-        "The rate at which the trackball slows down. 1 eliminates all slowdown.\n" +
-          ">1 values cause the trackball to speed up.\n" +
-          "Default value (.98)"
-      ))
+      val pollingField = new InputField("Polling Rate", Tooltip(Main.pollingRateDesc))
+      val startupField = new InputField("Tolerance", Tooltip(Main.startupThresholdDesc))
+      val giveupField = new InputField("Sensitivity", Tooltip(Main.giveupThresholdDesc))
+      val dragField = new InputField("Friction", Tooltip(Main.dragDesc))
 
       fill = Color.Beige
       content = new BorderPane {
@@ -42,7 +27,7 @@ class Gui extends JFXApp {
         top = new Label {
           padding = Insets(15)
           font = Font(21)
-          text = "Virtual Trackball Config"
+          text = s"${Main.name}} Config"
         }
         center = new VBox{
           maxWidth = 300
