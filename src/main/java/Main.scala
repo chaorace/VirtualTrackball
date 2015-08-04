@@ -22,7 +22,7 @@ object Main extends App {
       "Default value (10)"
   final val giveupThresholdDesc =
     "The lowest amount of movement that can interrupt trackball spinning.\n" +
-      "Default value (5)"
+      "Default value (2)"
   final val dragDesc =
     "The rate at which the trackball slows down. 1 eliminates all slowdown.\n" +
       ">1 values cause the trackball to speed up.\n" +
@@ -87,7 +87,6 @@ object Main extends App {
           val engine = new Engine(None, None, None, None)
           engine.run()
       }
-
     }
   }
 }
