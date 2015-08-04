@@ -14,6 +14,7 @@ import scalafx.scene.text.Font
  */
 class Gui extends JFXApp {
   stage = new PrimaryStage {
+    title = "Virtual Trackball by chaorace"
     scene = new Scene {
       val pollingField = new InputField("Polling Rate", Tooltip(
         "The rate at which mouse movement is measured.\n" +
@@ -46,7 +47,10 @@ class Gui extends JFXApp {
         center = new VBox{
           maxWidth = 300
           children = List(
-            new Label("Leave fields blank to use default values"),
+            new Label{
+              font = Font(11)
+              text = "Leave fields blank to use default values. Hover for details"
+            },
             new FlowPane {
               maxWidth = 400
               children = List(
