@@ -34,13 +34,16 @@ class Engine(pollingRate: Option[Double], startupThreshold: Option[Double], give
       }
     //If last polled mouse movement was insignificant
     }else{
-      //Move the mouse according to the last trackball speed
-      robot.mouseMove((endPos.x + lastVector.x).toInt, (endPos.y + lastVector.y).toInt)
-      //Apply friction to trackball
-      lastVector = new Vector2D(lastVector.x * drag.getOrElse(.98), lastVector.y * drag.getOrElse(.98))
-      //If the trackball is almost stopped, stop it
-      if(lastVector.almostEquals(noVector, 2)){
-        lastVector = noVector
+      //Only bother if there's a vector to move the mouse along
+      if(lastVector != noVector){
+        //Move the mouse according to the last trackball speed
+        robot.mouseMove((endPos.x + lastVector.x).toInt, (endPos.y + lastVector.y).toInt)
+        //Apply friction to trackball
+        lastVector = new Vector2D(lastVector.x * drag.getOrElse(.98), lastVector.y * drag.getOrElse(.98))
+        //If the trackball is almost stopped, stop it
+        if(lastVector.almostEquals(noVector, 2)){
+          lastVector = noVector
+        }
       }
     }
   }
