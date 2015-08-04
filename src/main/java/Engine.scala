@@ -4,16 +4,16 @@ import math.geom2d.{Point2D, Vector2D}
 
 
 /**
- * Created by Chris on 8/4/2015.
+ * Created by Chris on 8/4/2015. This class actually handles
  */
-object Main extends App{
+class Engine extends Runnable{
+
   val robot = new Robot
-
   val noVector = new Vector2D(0,0)
-
   val drag = .98
   var lastVector = noVector
-  while(true){
+
+  def run() = while(true){
     Thread.sleep(10)
     val startPos = new Point2D(MouseInfo.getPointerInfo.getLocation)
     Thread.sleep(10)
