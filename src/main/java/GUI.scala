@@ -59,7 +59,14 @@ class Gui extends JFXApp {
           )
         }
         bottom = new ToggleButton{
+          var engineThread = new Thread(new Engine(pollingField.value, startupField.value, giveupField.value, dragField.value))
           text <== when(selected) choose "Stop/Reload Settings" otherwise "Start"
+          onAction = handle {selected.value match{
+            case true =>
+              engineThread = new Thread(new Engine(pollingField.value, startupField.value, giveupField.value, dragField.value))
+              engineThread.start()
+            case false => engineThread.stop()
+          }}
         }
       }
     }
@@ -77,5 +84,8 @@ class InputField(description: String, tt: Tooltip) extends HBox {
     minWidth = 70
   }, inputBox)
 
-  def value = inputBox.text.value.toDouble
+  def value = inputBox.text.value match{
+    case "" => None
+    case x: String => Some(x.toDouble)
+  }
 }
