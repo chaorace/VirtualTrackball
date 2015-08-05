@@ -1,3 +1,5 @@
+import org.jnativehook.GlobalScreen
+
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.geometry.Insets
@@ -60,6 +62,7 @@ class Gui extends JFXApp {
           }}
           //If the user tries closing the GUI while the engine is running, the thread gets shut down
           onCloseRequest = handle {
+            GlobalScreen.unregisterNativeHook()
             engineThread.stop()
           }
         }
