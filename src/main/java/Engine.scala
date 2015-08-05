@@ -69,7 +69,7 @@ class Engine(pollingRate: Option[Double], startupThreshold: Option[Double], give
     //If this movement was significant
     if(!startPos.almostEquals(endPos, giveupThreshold.getOrElse(1)) || clicked){
       //If this movement was violent
-      if(!startPos.almostEquals(endPos, startupThreshold.getOrElse(7))){
+      if (!startPos.almostEquals(endPos, startupThreshold.getOrElse(5))) {
         //Use the last polled movement as the new trackball speed
         lastVector = new Vector2D(startPos, endPos)
       }else{
@@ -83,7 +83,7 @@ class Engine(pollingRate: Option[Double], startupThreshold: Option[Double], give
         //Move the mouse according to the last trackball speed
         robot.mouseMove((endPos.x + lastVector.x).toInt, (endPos.y + lastVector.y).toInt)
         //Apply friction to trackball
-        lastVector = new Vector2D(lastVector.x * drag.getOrElse(.975), lastVector.y * drag.getOrElse(.975))
+        lastVector = new Vector2D(lastVector.x * drag.getOrElse(.95), lastVector.y * drag.getOrElse(.95))
         //If the trackball is almost stopped, stop it
         if(lastVector.almostEquals(noVector, 2)){
           lastVector = noVector

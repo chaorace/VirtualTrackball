@@ -16,17 +16,17 @@ object Main extends App {
       "Lower values are smoother, Higher values are less intensive.\n" +
       "Changing this option directly affects how all other options are evaluated\n" +
       "(don't change this unless you know what you're doing!).\n" +
-      "Default value (5)"
+      "Default value (10)"
   final val startupThresholdDesc =
     "The lowest amount of movement that can start trackball spinning.\n" +
-      "Default value (7)"
+      "Default value (5)"
   final val giveupThresholdDesc =
     "The lowest amount of movement that can interrupt trackball spinning.\n" +
       "Default value (1)"
   final val dragDesc =
     "The rate at which the trackball slows down. 1 eliminates all slowdown.\n" +
       ">1 values cause the trackball to speed up.\n" +
-      "Default value (.975)"
+      "Default value (.95)"
 
   //Command line parameters
   object Args {
