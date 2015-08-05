@@ -27,3 +27,12 @@ Default value (2)
 
 The rate at which the trackball slows down. 1 eliminates all slowdown. >1 values cause the trackball to speed up.
 Default value (.98)
+
+# More Info
+
+VirtualTrackball was made by Christopher Lathan Crockett in 2015 and is Licensed under the MIT License. It depends upon the following libraries:
+
+[ScalaFX](https://github.com/scalafx/scalafx)
+[JNativeHook](https://github.com/kwhat/jnativehook)
+[JavaGeom](https://github.com/dlegland/javaGeom)
+[JCommander](https://github.com/cbeust/jcommander)
