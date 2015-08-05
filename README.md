@@ -16,17 +16,17 @@ Default value (5)
 -t / --Tolerance [number]:
 
 The lowest amount of movement that can start trackball spinning.
-Default value (10)
+Default value (7)
 
 -s / --Sensitivity [number]:
 
 The lowest amount of movement that can interrupt trackball spinning.
-Default value (2)
+Default value (1)
 
 -f / --Friction [number]
 
 The rate at which the trackball slows down. 1 eliminates all slowdown. >1 values cause the trackball to speed up.
-Default value (.98)
+Default value (.975)
 
 # More Info
 
