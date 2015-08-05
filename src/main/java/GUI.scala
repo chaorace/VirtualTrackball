@@ -61,7 +61,7 @@ class Gui extends JFXApp {
                 engineThread = new Thread(new Engine(pollingField.value, startupField.value, giveupField.value, dragField.value))
                 engineThread.start()
               }catch{
-                case e: Exception =>
+                case e: NumberFormatException =>
                   new Alert(AlertType.Error, "Bad value entry").show()
                   selected.value = false
               }
