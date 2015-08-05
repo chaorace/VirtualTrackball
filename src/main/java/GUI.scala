@@ -4,6 +4,7 @@ import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.geometry.Insets
 import scalafx.scene.Scene
+import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.control._
 import scalafx.scene.layout.{VBox, HBox, FlowPane, BorderPane}
 import scalafx.scene.paint.Color
@@ -52,18 +53,24 @@ class Gui extends JFXApp {
         }
         //Engine starting logic. Converts fields to values to be used by the engine
         bottom = new ToggleButton{
-          var engineThread = new Thread(new Engine(pollingField.value, startupField.value, giveupField.value, dragField.value))
+          var engineThread:Thread = null
           text <== when(selected) choose "Stop/Reload Settings" otherwise "Start"
           onAction = handle {selected.value match{
             case true =>
-              engineThread = new Thread(new Engine(pollingField.value, startupField.value, giveupField.value, dragField.value))
-              engineThread.start()
+              try{
+                engineThread = new Thread(new Engine(pollingField.value, startupField.value, giveupField.value, dragField.value))
+                engineThread.start()
+              }catch{
+                case e: Exception =>
+                  new Alert(AlertType.Error, "Bad value entry").show()
+                  selected.value = false
+              }
             case false => engineThread.stop()
           }}
           //If the user tries closing the GUI while the engine is running, the thread gets shut down
           onCloseRequest = handle {
             GlobalScreen.unregisterNativeHook()
-            engineThread.stop()
+            if(engineThread != null) engineThread.stop()
           }
         }
       }
