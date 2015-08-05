@@ -83,6 +83,7 @@ object Main extends App {
         val engine = new Engine(pollingRate, startupThreshold, giveupThreshold, drag)
         engine.run()
       }catch{
+        //If anything goes wrong at all, give up and run with defaults
         case e: Exception =>
           val engine = new Engine(None, None, None, None)
           engine.run()
