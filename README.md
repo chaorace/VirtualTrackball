@@ -28,6 +28,9 @@ Default value (1)
 The rate at which the trackball slows down. 1 eliminates all slowdown. >1 values cause the trackball to speed up.
 Default value (.975)
 
+# Downloads
+[Github](https://github.com/chaorace/VirtualTrackball/releases)
+
 # More Info
 
 VirtualTrackball was made by Christopher Lathan Crockett in 2015 and is Licensed under the MIT License. It depends upon the following libraries:
