@@ -10,7 +10,7 @@ import scalafx.scene.control.Alert.AlertType
 
 
 /**
- * Created by Chris on 8/4/2015. This class actually handles
+ * Created by Chris on 8/4/2015. This class actually handles the trackball emulation
  */
 class Engine(pollingRate: Option[Double], startupThreshold: Option[Double], giveupThreshold: Option[Double], drag: Option[Double]) extends Runnable{
 
