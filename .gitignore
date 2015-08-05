@@ -92,3 +92,5 @@ project/plugins/project/
 .worksheet
 
 
+
+src/main/resources/META-INF/MANIFEST.MF
