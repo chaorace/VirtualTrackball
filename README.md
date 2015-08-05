@@ -11,12 +11,12 @@ Virtual Trackball has two operating modes: GUI and command line. The GUI mode is
 -p / --PollingRate [number]: 
 
 The rate at which mouse movement is measured. Lower values are smoother, Higher values are less intensive. Changing this option directly affects how all other options are evaluated (don't change this unless you know what you're doing!)
-Default value (5)
+Default value (10)
 
 -t / --Tolerance [number]:
 
 The lowest amount of movement that can start trackball spinning.
-Default value (7)
+Default value (5)
 
 -s / --Sensitivity [number]:
 
@@ -26,7 +26,7 @@ Default value (1)
 -f / --Friction [number]
 
 The rate at which the trackball slows down. 1 eliminates all slowdown. >1 values cause the trackball to speed up.
-Default value (.975)
+Default value (.95)
 
 # Downloads
 [Github](https://github.com/chaorace/VirtualTrackball/releases)
