@@ -1,9 +1,12 @@
-import java.awt.{Robot}
+import java.awt.Robot
 import java.util.logging.{Level, Logger}
 
 import math.geom2d.{Point2D, Vector2D}
-import org.jnativehook.GlobalScreen
-import org.jnativehook.mouse.{NativeMouseInputListener, NativeMouseEvent}
+import org.jnativehook.mouse.{NativeMouseEvent, NativeMouseInputListener}
+import org.jnativehook.{GlobalScreen, NativeHookException}
+
+import scalafx.scene.control.Alert
+import scalafx.scene.control.Alert.AlertType
 
 
 /**
@@ -20,23 +23,36 @@ class Engine(pollingRate: Option[Double], startupThreshold: Option[Double], give
   var mouseY = 0.0
 
   //JNativeHook setup
+  val logger = Logger.getLogger(classOf[GlobalScreen].getPackage.getName)
+  logger.setLevel(Level.WARNING)
+
   object GlobalMouseListener extends NativeMouseInputListener {
     def nativeMouseClicked(nativeMouseEvent: NativeMouseEvent) = {}
+
     def nativeMousePressed(nativeMouseEvent: NativeMouseEvent) = {
       clicked = true
     }
+
     def nativeMouseReleased(nativeMouseEvent: NativeMouseEvent) = {}
+
     def nativeMouseMoved(nativeMouseEvent: NativeMouseEvent) = {
       mouseX = nativeMouseEvent.getX
       mouseY = nativeMouseEvent.getY
     }
+
     def nativeMouseDragged(nativeMouseEvent: NativeMouseEvent) = {}
   }
-  val logger = Logger.getLogger(classOf[GlobalScreen].getPackage.getName)
-  logger.setLevel(Level.WARNING)
-  GlobalScreen.registerNativeHook()
   GlobalScreen.addNativeMouseListener(GlobalMouseListener)
   GlobalScreen.addNativeMouseMotionListener(GlobalMouseListener)
+  try {
+    GlobalScreen.registerNativeHook()
+  } catch {
+    case e: NativeHookException =>
+      //Can't register the hook properly? Crash!!!
+      new Alert(AlertType.Error, "JavaNativeHook2 failed to register! Try using v1.1 or earlier instead")
+      sys.error("JavaNativeHook2 failed to register! Try using v1.1 or earlier instead")
+      sys.exit(1)
+  }
 
 
 
