@@ -1,9 +1,9 @@
-import java.awt.{Robot, MouseInfo}
+import java.awt.{Robot}
 import java.util.logging.{Level, Logger}
 
 import math.geom2d.{Point2D, Vector2D}
 import org.jnativehook.GlobalScreen
-import org.jnativehook.mouse.{NativeMouseEvent, NativeMouseListener}
+import org.jnativehook.mouse.{NativeMouseInputListener, NativeMouseEvent}
 
 
 /**
@@ -16,17 +16,27 @@ class Engine(pollingRate: Option[Double], startupThreshold: Option[Double], give
   val noVector = new Vector2D(0,0)
   var lastVector = noVector
   var clicked = false
+  var mouseX = 0.0
+  var mouseY = 0.0
 
   //JNativeHook setup
-  object GlobalMouseListener extends NativeMouseListener {
+  object GlobalMouseListener extends NativeMouseInputListener {
     def nativeMouseClicked(nativeMouseEvent: NativeMouseEvent) = {}
-    def nativeMousePressed(nativeMouseEvent: NativeMouseEvent) = {clicked = true}
+    def nativeMousePressed(nativeMouseEvent: NativeMouseEvent) = {
+      clicked = true
+    }
     def nativeMouseReleased(nativeMouseEvent: NativeMouseEvent) = {}
+    def nativeMouseMoved(nativeMouseEvent: NativeMouseEvent) = {
+      mouseX = nativeMouseEvent.getX
+      mouseY = nativeMouseEvent.getY
+    }
+    def nativeMouseDragged(nativeMouseEvent: NativeMouseEvent) = {}
   }
   val logger = Logger.getLogger(classOf[GlobalScreen].getPackage.getName)
   logger.setLevel(Level.WARNING)
   GlobalScreen.registerNativeHook()
   GlobalScreen.addNativeMouseListener(GlobalMouseListener)
+  GlobalScreen.addNativeMouseMotionListener(GlobalMouseListener)
 
 
 
@@ -36,9 +46,9 @@ class Engine(pollingRate: Option[Double], startupThreshold: Option[Double], give
     clicked = false
     //Poll for mouse movement and give time to detect clicks
     Thread.sleep(pollingRate.getOrElse(10.00).toInt)
-    val startPos = new Point2D(MouseInfo.getPointerInfo.getLocation)
+    val startPos = new Point2D(mouseX, mouseY)
     Thread.sleep(pollingRate.getOrElse(10.00).toInt)
-    val endPos = new Point2D(MouseInfo.getPointerInfo.getLocation)
+    val endPos = new Point2D(mouseX, mouseY)
 
     //If this movement was significant
     if(!startPos.almostEquals(endPos, giveupThreshold.getOrElse(1)) || clicked){
