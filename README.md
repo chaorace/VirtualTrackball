@@ -16,14 +16,26 @@ Default value (5)
 -t / --Tolerance [number]:
 
 The lowest amount of movement that can start trackball spinning.
-Default value (10)
+Default value (7)
 
 -s / --Sensitivity [number]:
 
 The lowest amount of movement that can interrupt trackball spinning.
-Default value (2)
+Default value (1)
 
 -f / --Friction [number]
 
 The rate at which the trackball slows down. 1 eliminates all slowdown. >1 values cause the trackball to speed up.
-Default value (.98)
+Default value (.975)
+
+# Downloads
+[Github](https://github.com/chaorace/VirtualTrackball/releases)
+
+# More Info
+
+VirtualTrackball was made by Christopher Lathan Crockett in 2015 and is Licensed under the MIT License. It depends upon the following libraries:
+
+[ScalaFX](https://github.com/scalafx/scalafx)
+[JNativeHook](https://github.com/kwhat/jnativehook)
+[JavaGeom](https://github.com/dlegland/javaGeom)
+[JCommander](https://github.com/cbeust/jcommander)
