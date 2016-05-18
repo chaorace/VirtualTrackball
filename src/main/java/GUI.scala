@@ -84,10 +84,7 @@ class Gui(startHidden: Boolean, config: Config) extends JFXApp {
         })
         //If the user tries closing the GUI while the engine is running, the thread gets shut down
         onCloseRequest = handle {
-          GlobalScreen.unregisterNativeHook()
-          toggleTray(false)
-          if(engineThread != null) engineThread.stop()
-          Platform.exit()
+          exit
         }
 
       }
@@ -106,13 +103,21 @@ class Gui(startHidden: Boolean, config: Config) extends JFXApp {
       Platform.runLater(engineToggler())
     }
   }
+  val exitAction = new ActionListener(){
+    override def actionPerformed(e: ActionEvent): Unit = {
+      Platform.runLater(exit())
+    }
+  }
   val showGuiItem = new MenuItem("Show GUI")
   showGuiItem.addActionListener(defaultAction)
   val toggleEngineItem = new MenuItem("On/Off Toggle")
   toggleEngineItem.addActionListener(engineAction)
+  val exitItem = new MenuItem("Exit")
+  exitItem.addActionListener(exitAction)
   val popup = new PopupMenu()
   popup.add(showGuiItem)
   popup.add(toggleEngineItem)
+  popup.add(exitItem)
   val image = ImageIO.read(getClass.getResourceAsStream("icon.png"))
   val trayIcon = new TrayIcon(image, Main.name, popup)
   trayIcon.addActionListener(defaultAction)
@@ -153,6 +158,13 @@ class Gui(startHidden: Boolean, config: Config) extends JFXApp {
         }
       case true => engineThread.stop(); engine = false
     }
+  }
+
+  def exit(): Unit ={
+    GlobalScreen.unregisterNativeHook()
+    toggleTray(false)
+    if(engineThread != null) engineThread.stop()
+    Platform.exit()
   }
 }
 
