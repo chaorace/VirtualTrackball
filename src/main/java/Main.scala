@@ -5,9 +5,11 @@ import com.beust.jcommander.{JCommander, Parameter}
  * Created by Chris on 8/4/2015. Main execution environment
  */
 
-case class Config(pollingRate: Option[Double], startupThreshold: Option[Double], giveupThreshold: Option[Double], drag: Option[Double])
+case class Config(pollingRate: Option[Double] = None, startupThreshold: Option[Double] = None, giveupThreshold: Option[Double] = None, drag: Option[Double] = None)
+
 
 object Main extends App {
+
   //Strings
   final val name = "Virtual Trackball"
   final val version = "1.0"
@@ -54,7 +56,7 @@ object Main extends App {
   override def main(args: Array[String]): Unit = {
     //If there are no command line arguments, boot to gui
     if (args.isEmpty) {
-      val gui = new Gui
+      val gui = new Gui(false, Config())
       gui.main(new Array[String](0))
     } else {
       //An unreasonable amount of work to get a generally crummy library to play nice with Scala. 0/10 experience, would not recommend JCommander for Scala use
@@ -83,14 +85,15 @@ object Main extends App {
         }
 
         //Start engine with provided parameters
-
-        val engine = new Engine(new Config(pollingRate, startupThreshold, giveupThreshold, drag))
-        engine.run()
+        val gui = new Gui(true, new Config(pollingRate, startupThreshold, giveupThreshold, drag))
+//        val engine = new Engine(new Config(pollingRate, startupThreshold, giveupThreshold, drag))
+//        engine.run()
       }catch{
         //If anything goes wrong at all, give up and run with defaults
         case e: Exception =>
-          val engine = new Engine(new Config(None, None, None, None))
-          engine.run()
+          val gui = new Gui(true, Config())
+//          val engine = new Engine(Config())
+//          engine.run()
       }
     }
   }
