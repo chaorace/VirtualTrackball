@@ -12,7 +12,7 @@ import scalafx.scene.control.Alert.AlertType
 /**
  * Created by Chris on 8/4/2015. This class actually handles the trackball emulation
  */
-class Engine(pollingRate: Option[Double], startupThreshold: Option[Double], giveupThreshold: Option[Double], drag: Option[Double]) extends Runnable{
+class Engine(config: Config) extends Runnable{
 
   //Setting up engine
   val robot = new Robot
@@ -61,15 +61,15 @@ class Engine(pollingRate: Option[Double], startupThreshold: Option[Double], give
     //Reset click tracking
     clicked = false
     //Poll for mouse movement and give time to detect clicks
-    Thread.sleep(pollingRate.getOrElse(10.00).toInt)
+    Thread.sleep(config.pollingRate.getOrElse(10.00).toInt)
     val startPos = new Point2D(mouseX, mouseY)
-    Thread.sleep(pollingRate.getOrElse(10.00).toInt)
+    Thread.sleep(config.pollingRate.getOrElse(10.00).toInt)
     val endPos = new Point2D(mouseX, mouseY)
 
     //If this movement was significant
-    if(!startPos.almostEquals(endPos, giveupThreshold.getOrElse(1)) || clicked){
+    if(!startPos.almostEquals(endPos, config.giveupThreshold.getOrElse(1)) || clicked){
       //If this movement was violent
-      if (!startPos.almostEquals(endPos, startupThreshold.getOrElse(5))) {
+      if (!startPos.almostEquals(endPos, config.startupThreshold.getOrElse(5))) {
         //Use the last polled movement as the new trackball speed
         lastVector = new Vector2D(startPos, endPos)
       }else{
@@ -83,7 +83,7 @@ class Engine(pollingRate: Option[Double], startupThreshold: Option[Double], give
         //Move the mouse according to the last trackball speed
         robot.mouseMove((endPos.x + lastVector.x).toInt, (endPos.y + lastVector.y).toInt)
         //Apply friction to trackball
-        lastVector = new Vector2D(lastVector.x * drag.getOrElse(.95), lastVector.y * drag.getOrElse(.95))
+        lastVector = new Vector2D(lastVector.x * config.drag.getOrElse(.95), lastVector.y * config.drag.getOrElse(.95))
         //If the trackball is almost stopped, stop it
         if(lastVector.almostEquals(noVector, 2)){
           lastVector = noVector

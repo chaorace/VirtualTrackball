@@ -58,7 +58,7 @@ class Gui extends JFXApp {
           onAction = handle {selected.value match{
             case true =>
               try{
-                engineThread = new Thread(new Engine(pollingField.value, startupField.value, giveupField.value, dragField.value))
+                engineThread = new Thread(new Engine(new Config(pollingField.value, startupField.value, giveupField.value, dragField.value)))
                 engineThread.start()
               }catch{
                 case e: NumberFormatException =>

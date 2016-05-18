@@ -4,6 +4,9 @@ import com.beust.jcommander.{JCommander, Parameter}
 /**
  * Created by Chris on 8/4/2015. Main execution environment
  */
+
+case class Config(pollingRate: Option[Double], startupThreshold: Option[Double], giveupThreshold: Option[Double], drag: Option[Double])
+
 object Main extends App {
   //Strings
   final val name = "Virtual Trackball"
@@ -80,12 +83,13 @@ object Main extends App {
         }
 
         //Start engine with provided parameters
-        val engine = new Engine(pollingRate, startupThreshold, giveupThreshold, drag)
+
+        val engine = new Engine(new Config(pollingRate, startupThreshold, giveupThreshold, drag))
         engine.run()
       }catch{
         //If anything goes wrong at all, give up and run with defaults
         case e: Exception =>
-          val engine = new Engine(None, None, None, None)
+          val engine = new Engine(new Config(None, None, None, None))
           engine.run()
       }
     }
